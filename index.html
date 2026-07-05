@@ -2,182 +2,156 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Test ghi âm Speaking (iPhone)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloudinary Upload Test</title>
   <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4d;
+      --text: #e7ecf3;
+      --muted: #8b9cb3;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --success: #22c55e;
+      --error: #ef4444;
+    }
+
     * { box-sizing: border-box; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
-      padding: 16px;
-      background: #f5f5f7;
-      color: #1d1d1f;
-      line-height: 1.45;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
-    h1 { font-size: 1.25rem; margin: 0 0 4px; }
-    .sub { color: #666; font-size: 0.875rem; margin-bottom: 16px; }
-    .card {
-      background: #fff;
+
+    .wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0 0 24px;
+      font-size: 0.95rem;
+    }
+
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.08);
+      padding: 20px;
     }
-    label { display: block; font-size: 0.8rem; color: #555; margin-bottom: 4px; }
-    input, select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #d2d2d7;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-bottom: 10px;
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
     }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
     button {
-      width: 100%;
-      padding: 14px;
+      padding: 10px 16px;
       border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 8px;
-    }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-record { background: #ff3b30; color: #fff; }
-    .btn-stop { background: #ff9500; color: #fff; }
-    .btn-submit { background: #34c759; color: #fff; }
-    .btn-secondary { background: #e5e5ea; color: #1d1d1f; }
-    .timer {
-      font-size: 2rem;
-      font-variant-numeric: tabular-nums;
-      text-align: center;
-      font-weight: 700;
-      margin: 8px 0;
-    }
-    .timer.recording { color: #ff3b30; }
-    audio { width: 100%; margin-top: 8px; }
-    #log {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 11px;
-      white-space: pre-wrap;
-      word-break: break-all;
-      background: #1d1d1f;
-      color: #a8ff78;
-      padding: 12px;
       border-radius: 8px;
-      max-height: 280px;
-      overflow-y: auto;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
     }
-    .status { font-size: 0.9rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; }
-    .status.ok { background: #e8f8ed; color: #1b7a3a; }
-    .status.warn { background: #fff8e6; color: #8a6500; }
-    .status.err { background: #fdecea; color: #c62828; }
-    .pill {
-      display: inline-block;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #e5e5ea;
-      margin-right: 4px;
-      margin-bottom: 4px;
+
+    button:hover:not(:disabled) { background: var(--accent-hover); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    button.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
     }
-    .pill.bad { background: #ffcdd2; }
-    .pill.good { background: #c8e6c9; }
+
+    button.secondary:hover:not(:disabled) {
+      background: var(--border);
+    }
+
+    button.danger {
+      background: var(--error);
+    }
+
+    .status {
+      font-size: 0.9rem;
+      color: var(--muted);
+      min-height: 1.4em;
+      margin-top: 12px;
+    }
+
+    .status.recording { color: var(--error); font-weight: 600; }
+    .status.ok { color: var(--success); }
+    .status.err { color: var(--error); }
+
+    .progress-wrap {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .progress-wrap.visible { display: block; }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.15s ease;
+    }
   </style>
 </head>
 <body>
-  <h1>Test ghi âm & nộp Speaking</h1>
-  <p class="sub">Trang test đơn giản cho iPhone/Safari — ghi âm, xem debug, upload Firebase.</p>
+  <div class="wrap">
 
-  <div id="authStatus" class="status warn">Chưa đăng nhập</div>
-
-  <div class="card">
-    <label>Email</label>
-    <input id="email" type="email" placeholder="email@example.com" autocomplete="username" />
-    <label>Mật khẩu</label>
-    <input id="password" type="password" placeholder="Mật khẩu" autocomplete="current-password" />
-    <button class="btn-secondary" id="btnLogin">Đăng nhập Firebase</button>
-    <button class="btn-secondary" id="btnLogout" style="display:none">Đăng xuất</button>
-  </div>
-
-  <div class="card">
-    <div class="row">
-      <div>
-        <label>Book ID</label>
-        <input id="bookId" type="text" value="1" inputmode="numeric" />
+    <section>
+      <div class="row">
+        <button type="button" id="btnRecord">Ghi âm</button>
+        <button type="button" id="btnStop" class="danger secondary" disabled>Dừng</button>
+        <button type="button" id="btnUpload" disabled>Upload</button>
       </div>
-      <div>
-        <label>Lesson ID</label>
-        <input id="lessonId" type="text" value="1" inputmode="numeric" />
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar" id="progressBar"></div>
       </div>
-    </div>
+      <p class="status" id="status">Chưa ghi âm</p>
+    </section>
   </div>
 
-  <div class="card" style="text-align:center">
-    <div id="timer" class="timer">00:00</div>
-    <div id="recState">Sẵn sàng ghi âm</div>
-    <button class="btn-record" id="btnStart">🎤 Bắt đầu ghi</button>
-    <button class="btn-stop" id="btnStop" disabled>⏹ Dừng ghi</button>
-    <audio id="preview" controls style="display:none"></audio>
-    <div id="fileInfo" style="margin-top:10px;font-size:0.85rem;color:#555"></div>
-  </div>
+  <script>
+    const MAX_BYTES = 15 * 1024 * 1024;
+    const CLOUD_NAME = "dbinok791";
+    const API_KEY = "992647231676819";
+    const UPLOAD_PRESET = "test-speaking";
 
-  <div class="card">
-    <button class="btn-submit" id="btnSubmit" disabled>📤 Nộp bài lên Firebase</button>
-    <button class="btn-secondary" id="btnReset">🗑 Ghi lại</button>
-  </div>
+    const btnRecord = document.getElementById("btnRecord");
+    const btnStop = document.getElementById("btnStop");
+    const btnUpload = document.getElementById("btnUpload");
+    const statusEl = document.getElementById("status");
+    const progressWrap = document.getElementById("progressWrap");
+    const progressBar = document.getElementById("progressBar");
 
-  <div class="card">
-    <strong>Thiết bị & codec</strong>
-    <div id="deviceInfo" style="margin-top:8px"></div>
-  </div>
+    let selectedFile = null;
+    let mediaRecorder = null;
+    let mediaStream = null;
+    let recordStartedAt = 0;
 
-  <div class="card">
-    <strong>Log</strong>
-    <div id="log"></div>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-    import { getFirestore, doc, runTransaction, serverTimestamp, collection } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-    import { getStorage, ref, uploadBytesResumable, getDownloadURL, getMetadata } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAAe0C4ryoKHUvXFyo8jA7i5j60Syv_Eo0",
-      authDomain: "handbook-65d51.firebaseapp.com",
-      projectId: "handbook-65d51",
-      storageBucket: "handbook-65d51.appspot.com",
-      messagingSenderId: "86530240967",
-      appId: "1:86530240967:web:b9ed1e8d3245ff62f0e9e2",
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    const MIN_FILE_BYTES = 1024;
-    const ALLOWED_MIMES = [
-      "audio/webm", "audio/ogg", "audio/mpeg", "audio/mp3", "audio/wav",
-      "audio/x-wav", "audio/wave", "audio/x-m4a", "audio/mp4", "audio/aac",
-    ];
-
-    const $ = (id) => document.getElementById(id);
-    const logEl = $("log");
-    const deviceInfoEl = $("deviceInfo");
-
-    function log(msg) {
-      const line = `[${new Date().toLocaleTimeString()}] ${msg}`;
-      logEl.textContent = line + "\n" + logEl.textContent;
-      console.log(line);
-    }
-
-    function chooseMimeType() {
+    function chooseSupportedMimeType() {
       const candidates = [
-        "audio/mp4",
-        "audio/aac",
         "audio/webm;codecs=opus",
         "audio/webm",
         "audio/ogg;codecs=opus",
@@ -189,311 +163,167 @@
           return type;
         }
       }
-      return "";
+      return undefined;
     }
 
-    function extFromMime(mime) {
-      const t = (mime || "").toLowerCase();
-      if (t.includes("mpeg") || t.includes("mp3")) return "mp3";
-      if (t.includes("ogg")) return "ogg";
-      if (t.includes("wav")) return "wav";
-      if (t.includes("mp4") || t.includes("m4a") || t.includes("aac")) return "m4a";
-      return "webm";
-    }
-
-    function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-    }
-
-    function renderDeviceInfo() {
-      const mime = chooseMimeType();
-      const ua = navigator.userAgent;
-      const isIOS = /iPhone|iPad|iPod/i.test(ua);
-      const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-      const hasMR = typeof MediaRecorder !== "undefined";
-      const hasGUM = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-
-      deviceInfoEl.innerHTML = [
-        `<span class="pill ${isIOS ? "good" : ""}">iOS: ${isIOS}</span>`,
-        `<span class="pill ${isSafari ? "good" : ""}">Safari: ${isSafari}</span>`,
-        `<span class="pill ${hasMR ? "good" : "bad"}">MediaRecorder: ${hasMR}</span>`,
-        `<span class="pill ${hasGUM ? "good" : "bad"}">getUserMedia: ${hasGUM}</span>`,
-        `<span class="pill">MIME: ${mime || "(mặc định trình duyệt)"}</span>`,
-        `<span class="pill">HTTPS: ${location.protocol === "https:"}</span>`,
-      ].join("");
-      log(`UA: ${ua}`);
-      log(`MIME chọn: ${mime || "default"}`);
-    }
-
-    renderDeviceInfo();
-
-    let mediaRecorder = null;
-    let stream = null;
-    let chunks = [];
-    let audioBlob = null;
-    let audioFile = null;
-    let durationSec = 0;
-    let timerInterval = null;
-    let startedAt = 0;
-    let usedMime = "";
-
-    function setRecState(text, cls) {
-      $("recState").textContent = text;
-      $("recState").className = cls || "";
-    }
-
-    function updateFileInfo() {
-      if (!audioBlob) {
-        $("fileInfo").textContent = "";
-        $("preview").style.display = "none";
-        $("btnSubmit").disabled = true;
-        return;
+    function stopStream() {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach((t) => t.stop());
+        mediaStream = null;
       }
-      const okSize = audioBlob.size >= MIN_FILE_BYTES;
-      const mime = audioBlob.type || usedMime || "unknown";
-      const mimeOk = !mime || ALLOWED_MIMES.some((m) => mime.split(";")[0].trim().toLowerCase() === m);
-      $("fileInfo").innerHTML = `
-        <div>Kích thước: <b>${audioBlob.size}</b> bytes ${okSize ? "✅" : "❌ (&lt; 1KB)"}</div>
-        <div>MIME: <b>${mime || "(rỗng)"}</b> ${mimeOk ? "✅" : "❌"}</div>
-        <div>Thời lượng (timer): <b>${durationSec}s</b></div>
-      `;
-      $("preview").src = URL.createObjectURL(audioBlob);
-      $("preview").style.display = "block";
-      $("btnSubmit").disabled = !auth.currentUser || !okSize;
     }
 
     async function startRecording() {
       try {
-        chunks = [];
-        audioBlob = null;
-        audioFile = null;
-        durationSec = 0;
-        updateFileInfo();
+        selectedFile = null;
+        btnUpload.disabled = true;
+        progressWrap.classList.remove("visible");
+        progressBar.style.width = "0%";
 
-        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        usedMime = chooseMimeType();
-        mediaRecorder = usedMime
-          ? new MediaRecorder(stream, { mimeType: usedMime })
-          : new MediaRecorder(stream);
+        mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mimeType = chooseSupportedMimeType();
+        mediaRecorder = mimeType
+          ? new MediaRecorder(mediaStream, { mimeType })
+          : new MediaRecorder(mediaStream);
 
-        log(`Bắt đầu ghi — recorder.mimeType=${mediaRecorder.mimeType}`);
-
+        const chunks = [];
         mediaRecorder.ondataavailable = (e) => {
-          if (e.data && e.data.size > 0) {
-            chunks.push(e.data);
-            log(`chunk +${e.data.size} bytes (total chunks: ${chunks.length})`);
-          }
+          if (e.data && e.data.size > 0) chunks.push(e.data);
         };
 
         mediaRecorder.onstop = () => {
-          clearInterval(timerInterval);
-          timerInterval = null;
+          const finalType =
+            mediaRecorder.mimeType || chunks[0]?.type || "audio/webm";
+          const blob = new Blob(chunks, { type: finalType });
+          let ext = "webm";
+          if (finalType.includes("mpeg") || finalType.includes("mp3")) ext = "mp3";
+          else if (finalType.includes("ogg")) ext = "ogg";
+          else if (finalType.includes("wav")) ext = "wav";
 
-          const finalType = mediaRecorder.mimeType || chunks[0]?.type || usedMime || "audio/mp4";
-          audioBlob = new Blob(chunks, { type: finalType });
-          const ext = extFromMime(finalType);
-          audioFile = new File([audioBlob], `recording.${ext}`, { type: finalType });
-
-          log(`Dừng ghi — blob ${audioBlob.size} bytes, type=${audioBlob.type}`);
-
-          if (stream) {
-            stream.getTracks().forEach((t) => t.stop());
-            stream = null;
+          const file = new File([blob], "recording." + ext, { type: finalType });
+          if (file.size > MAX_BYTES) {
+            statusEl.textContent = "Bản ghi vượt quá 15MB.";
+            statusEl.className = "status err";
+            btnUpload.disabled = true;
+            stopStream();
+            return;
           }
 
-          $("timer").classList.remove("recording");
-          $("btnStart").disabled = false;
-          $("btnStop").disabled = true;
-          setRecState("Ghi xong — nghe thử trước khi nộp");
-
-          if (audioBlob.size < MIN_FILE_BYTES) {
-            setRecState("⚠️ File quá nhỏ — iPhone có thể lỗi mic. Ghi lại!", "warn");
-            log("LỖI: file < 1024 bytes — app chính cũng sẽ từ chối nộp");
-          }
-          updateFileInfo();
+          selectedFile = file;
+          const secs = Math.round((Date.now() - recordStartedAt) / 1000);
+          statusEl.textContent = "Đã ghi xong (" + secs + "s) — bấm Upload";
+          statusEl.className = "status ok";
+          btnUpload.disabled = false;
+          stopStream();
         };
 
-        mediaRecorder.onerror = (e) => {
-          log(`MediaRecorder error: ${e.error?.message || e}`);
-        };
-
-        // timeslice quan trọng cho iOS — không dùng start() không tham số
-        mediaRecorder.start(1000);
-        startedAt = Date.now();
-        timerInterval = setInterval(() => {
-          durationSec = Math.floor((Date.now() - startedAt) / 1000);
-          $("timer").textContent = formatTime(durationSec);
-        }, 250);
-
-        $("timer").classList.add("recording");
-        $("btnStart").disabled = true;
-        $("btnStop").disabled = false;
-        setRecState("Đang ghi âm...");
+        recordStartedAt = Date.now();
+        mediaRecorder.start();
+        btnRecord.disabled = true;
+        btnStop.disabled = false;
+        statusEl.textContent = "Đang ghi âm...";
+        statusEl.className = "status recording";
       } catch (err) {
-        log(`Lỗi mic: ${err.message}`);
-        setRecState(`Lỗi: ${err.message}`, "err");
+        statusEl.textContent = "Không truy cập được mic: " + err.message;
+        statusEl.className = "status err";
       }
     }
 
     function stopRecording() {
-      if (!mediaRecorder || mediaRecorder.state === "inactive") return;
-      // iOS: requestData trước khi stop để flush chunk cuối
-      try {
-        if (typeof mediaRecorder.requestData === "function") {
-          mediaRecorder.requestData();
-        }
-      } catch (_) {}
-      mediaRecorder.stop();
+      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+      }
+      btnRecord.disabled = false;
+      btnStop.disabled = true;
     }
 
-    function resetRecording() {
-      stopRecording();
-      chunks = [];
-      audioBlob = null;
-      audioFile = null;
-      durationSec = 0;
-      $("timer").textContent = "00:00";
-      $("timer").classList.remove("recording");
-      $("btnStart").disabled = false;
-      $("btnStop").disabled = true;
-      setRecState("Sẵn sàng ghi âm");
-      updateFileInfo();
+    function uploadToCloudinary(file, onProgress) {
+      return new Promise((resolve, reject) => {
+        const url =
+          "https://api.cloudinary.com/v1_1/" +
+          encodeURIComponent(CLOUD_NAME) +
+          "/auto/upload";
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+        formData.append("api_key", API_KEY);
+        formData.append("folder", "speaking_submissions/test");
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+
+        xhr.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable && onProgress) {
+            onProgress(Math.round((e.loaded / e.total) * 100));
+          }
+        });
+
+        xhr.addEventListener("load", () => {
+          let body;
+          try {
+            body = JSON.parse(xhr.responseText);
+          } catch {
+            body = { raw: xhr.responseText };
+          }
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(body);
+          } else {
+            reject({ status: xhr.status, body });
+          }
+        });
+
+        xhr.addEventListener("error", () => {
+          reject({ status: 0, body: { error: { message: "Network error / CORS" } } });
+        });
+
+        xhr.send(formData);
+      });
     }
 
-    async function uploadSubmission() {
-      const user = auth.currentUser;
-      if (!user || !audioFile) return;
+    btnRecord.addEventListener("click", startRecording);
+    btnStop.addEventListener("click", stopRecording);
 
-      const bookId = $("bookId").value.trim();
-      const lessonId = Number($("lessonId").value.trim());
-      const studentId = user.uid;
-
-      if (!bookId || !lessonId) {
-        log("Thiếu bookId hoặc lessonId");
+    btnUpload.addEventListener("click", async () => {
+      if (!selectedFile) {
+        statusEl.textContent = "Ghi âm trước khi upload.";
+        statusEl.className = "status err";
         return;
       }
 
-      $("btnSubmit").disabled = true;
-      log("Đang upload...");
+      btnUpload.disabled = true;
+      btnRecord.disabled = true;
+      progressWrap.classList.add("visible");
+      progressBar.style.width = "0%";
+      statusEl.textContent = "Đang upload...";
+      statusEl.className = "status";
+
+      const started = performance.now();
 
       try {
-        const type = audioFile.type || "audio/webm";
-        const ext = extFromMime(type);
-        const date = new Date();
-        const dateStr = `${date.getDate()}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
-        const storagePath = `speaking_submissions/${dateStr}/book-${bookId}/lesson-${lessonId}/student-${studentId}.${ext}`;
-        const storageRef = ref(storage, storagePath);
-
-        await new Promise((resolve, reject) => {
-          const task = uploadBytesResumable(storageRef, audioFile);
-          task.on(
-            "state_changed",
-            (snap) => {
-              const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-              setRecState(`Đang nộp... ${pct}%`);
-            },
-            reject,
-            resolve
-          );
+        const result = await uploadToCloudinary(selectedFile, (pct) => {
+          progressBar.style.width = pct + "%";
+          statusEl.textContent = "Đang upload... " + pct + "%";
         });
 
-        await getMetadata(storageRef);
-        const downloadURL = await getDownloadURL(storageRef);
-        log(`Upload OK: ${downloadURL}`);
-
-        const bookProgressDocId = `${studentId}_${bookId}`;
-        const bookProgressRef = doc(collection(db, "userBookProgress"), bookProgressDocId);
-
-        await runTransaction(db, async (tx) => {
-          const snap = await tx.get(bookProgressRef);
-          const now = serverTimestamp();
-          const existing = snap.exists() ? snap.data() : null;
-          const existingLessons = existing?.lessons ?? {};
-          const existingLesson = existingLessons[lessonId] ?? {};
-          const speakingCount = typeof existingLesson.speakingCount === "number" ? existingLesson.speakingCount : 0;
-          const completedSpeaking = existing?.completedLessonsSpeaking ?? [];
-
-          const updatedLessons = {
-            ...existingLessons,
-            [lessonId]: {
-              ...existingLesson,
-              fileUrl: downloadURL,
-              originalFilename: audioFile.name,
-              lastSubmitted: now,
-              speakingCount: speakingCount + 1,
-              ...(durationSec > 0 && { duration: durationSec }),
-            },
-          };
-
-          let newCompleted = completedSpeaking;
-          if (!completedSpeaking.includes(lessonId)) {
-            newCompleted = [...completedSpeaking, lessonId].sort((a, b) => a - b);
-          }
-
-          tx.set(
-            bookProgressRef,
-            {
-              userId: studentId,
-              bookId,
-              lessons: updatedLessons,
-              completedLessons: existing?.completedLessons ?? [],
-              completedLessonsSpeaking: newCompleted,
-              lastUpdated: now,
-            },
-            { merge: true }
-          );
-        });
-
-        log("Firestore userBookProgress đã cập nhật ✅");
-        setRecState("Nộp bài thành công!", "ok");
+        const elapsed = ((performance.now() - started) / 1000).toFixed(2);
+        statusEl.textContent = "Upload thành công (" + elapsed + "s)";
+        statusEl.className = "status ok";
+        selectedFile = null;
       } catch (err) {
-        log(`Lỗi nộp: ${err.code || ""} ${err.message}`);
-        setRecState(`Lỗi nộp: ${err.message}`, "err");
+        const elapsed = ((performance.now() - started) / 1000).toFixed(2);
+        const msg =
+          err.body?.error?.message ||
+          err.body?.message ||
+          "Upload thất bại";
+        statusEl.textContent = msg + " (HTTP " + (err.status || "?") + ", " + elapsed + "s)";
+        statusEl.className = "status err";
       } finally {
-        updateFileInfo();
-      }
-    }
-
-    $("btnStart").addEventListener("click", startRecording);
-    $("btnStop").addEventListener("click", stopRecording);
-    $("btnReset").addEventListener("click", resetRecording);
-    $("btnSubmit").addEventListener("click", uploadSubmission);
-
-    $("btnLogin").addEventListener("click", async () => {
-      try {
-        await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
-        log("Đăng nhập OK");
-      } catch (err) {
-        log(`Đăng nhập lỗi: ${err.message}`);
+        btnRecord.disabled = false;
+        btnUpload.disabled = !selectedFile;
+        progressBar.style.width = "100%";
       }
     });
-
-    $("btnLogout").addEventListener("click", async () => {
-      await signOut(auth);
-      log("Đã đăng xuất");
-    });
-
-    onAuthStateChanged(auth, (user) => {
-      const el = $("authStatus");
-      if (user) {
-        el.className = "status ok";
-        el.textContent = `Đã đăng nhập: ${user.email || user.uid}`;
-        $("btnLogout").style.display = "block";
-        $("btnLogin").style.display = "none";
-      } else {
-        el.className = "status warn";
-        el.textContent = "Chưa đăng nhập — cần đăng nhập để upload Firebase";
-        $("btnLogout").style.display = "none";
-        $("btnLogin").style.display = "block";
-      }
-      updateFileInfo();
-    });
-
-    if (location.protocol !== "https:" && location.hostname !== "localhost") {
-      log("⚠️ iPhone cần HTTPS để dùng micro. Host qua https hoặc localhost.");
-    }
   </script>
 </body>
 </html>
